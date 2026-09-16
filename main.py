@@ -6,7 +6,8 @@ from uuid import UUID
 from check_availability import check_availability
 from find_available_slots import find_available_slots as get_available_slots
 from CreateAppointment import create_appointment 
-
+from cancel_appointment import cancel_appointment
+from reschedule_appointment import reschedule_appointment
 app = FastAPI()
 
 class AvailabilityRequest(BaseModel):
@@ -17,6 +18,7 @@ class AvailabilityRequest(BaseModel):
      end_time: time
      ServiceId:int
      Notes:str
+     AppointmentId:int
 
 
 app.add_middleware(
@@ -75,3 +77,15 @@ def create_appointment_endpoint(CustomerId: int,ProviderId: int,
        )
 
       return appintment
+
+@app.post("/cancel-appointment")
+def cancel_appointment_endpoint(AppointmentId: int):
+    result = cancel_appointment(AppointmentId)
+    return result
+
+
+
+@app.post("/reschedule-appointment")
+def reschedule_appointment_endpoint(AppointmentId: int, AppointmentDate: date, StartTime:time, EndTime:time):
+    result = reschedule_appointment(AppointmentId,AppointmentDate,StartTime, EndTime)
+    return result

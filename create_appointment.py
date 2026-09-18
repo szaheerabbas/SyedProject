@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from db import get_connection
 from datetime import date, time
 
-def create_appointment(CustomerId: int,ProviderId: int,ServiceId:int,AppointmentDate:date,StartTime:time, EndTime:time, Notes:str) -> dict:
+def create_appointment(customer_id: int,provider_id: int,service_id:int,appointment_date:date,start_time:time, end_time:time, notes:str) -> dict:
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -21,13 +21,13 @@ def create_appointment(CustomerId: int,ProviderId: int,ServiceId:int,Appointment
                         @Notes=?
 
                     """,
-                    CustomerId,
-                    ProviderId,
-                    ServiceId,
-                    AppointmentDate,  
-                    StartTime,
-                    EndTime,
-                    Notes
+                    customer_id,
+                    provider_id,
+                    service_id,
+                    appointment_date,  
+                    start_time,
+                    end_time,
+                    notes
                 
                 )
             

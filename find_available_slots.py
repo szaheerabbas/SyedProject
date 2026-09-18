@@ -44,7 +44,7 @@ def find_available_slots(ProviderId:int, AppointmentDate:date, ServiceId:int):
 # if __name__ == "__main__":
 #     available = find_available_slots(
 #     ProviderId=3,
-#     AppointmentDate=date(2026, 9, 15),
+#     AppointmentDate=date(2026-09-18),
 #     ServiceId=1
 # )
 

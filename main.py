@@ -5,9 +5,15 @@ from datetime import date, time
 from uuid import UUID
 from check_availability import check_availability
 from find_available_slots import find_available_slots as get_available_slots
-from CreateAppointment import create_appointment 
+from create_appointment import create_appointment 
 from cancel_appointment import cancel_appointment
 from reschedule_appointment import reschedule_appointment
+from agent_tool import run_agent
+from context import (
+     get_or_create_conversation,
+     get_recent_messages,
+    save_message
+)
 app = FastAPI()
 
 class AvailabilityRequest(BaseModel):
@@ -88,4 +94,51 @@ def cancel_appointment_endpoint(AppointmentId: int):
 @app.post("/reschedule-appointment")
 def reschedule_appointment_endpoint(AppointmentId: int, AppointmentDate: date, StartTime:time, EndTime:time):
     result = reschedule_appointment(AppointmentId,AppointmentDate,StartTime, EndTime)
+    return result
+
+
+@app.post("/conversation/{customer_id}")
+def get_conversation(customer_id: int):
+    conversation_id = get_or_create_conversation(customer_id)
+    print("Conversation_ID:", conversation_id)
+    return {
+        "conversation_id": str(conversation_id)
+    }
+
+@app.get("/get_messages/{conversation_id}")
+def get_messages(conversation_id: str):
+    recent_messages  = get_recent_messages(conversation_id)
+    # print("Recent Messages:", recent_messages)
+    return {
+        "messages": recent_messages 
+    }
+
+@app.post("/agent/{customer_id}")
+def get_agent(customer_id: int, request: AvailabilityRequest):
+   
+    print("CUSTOMER:", customer_id)
+    print("MESSAGE:", request.message)
+    print("Conversation_ID:", request.conversation_id)
+    save_message(
+                request.conversation_id,
+                "user",
+                request.message,
+    )
+    messages = [
+        {
+            "role": "user",
+            "content": request.message
+        }
+    ]
+
+    result = run_agent(customer_id, messages)
+    save_message(
+        request.conversation_id,
+        "assistant",
+        result
+       
+    )
+
+    print("AGENT RESULT:", result)
+
     return result

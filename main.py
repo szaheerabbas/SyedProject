@@ -8,7 +8,7 @@ from find_available_slots import find_available_slots as get_available_slots
 from create_appointment import create_appointment 
 from cancel_appointment import cancel_appointment
 from reschedule_appointment import reschedule_appointment
-from agent_tool import run_agent
+from agent_tool_copy2 import run_agent
 from context import (
      get_or_create_conversation,
      get_recent_messages,
@@ -25,6 +25,8 @@ class AvailabilityRequest(BaseModel):
      ServiceId:int
      Notes:str
      AppointmentId:int
+     message:str
+    
 
 
 app.add_middleware(

@@ -1,2 +1,4 @@
+git add .
+git commit -m "Your descriptive update message here"
 git push origin master
 git pull origin master

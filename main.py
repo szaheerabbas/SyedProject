@@ -17,15 +17,17 @@ from context import (
 app = FastAPI()
 
 class AvailabilityRequest(BaseModel):
-     CustomerId:int
-     ProviderId:int
-     AppointmentDate:date
-     start_time:time
-     end_time: time
-     ServiceId:int
-     Notes:str
-     AppointmentId:int
-     message:str
+    #  CustomerId:int
+     conversation_id:str
+     message: str
+    #  ProviderId:int
+    #  AppointmentDate:date
+    #  start_time:time
+    #  end_time: time
+    #  ServiceId:int
+    #  Notes:str
+    #  AppointmentId:int
+   
     
 
 

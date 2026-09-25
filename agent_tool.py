@@ -8,6 +8,7 @@ from find_provider import find_Provider
 from find_service import find_Service
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from appoinment_status import get_appointment_status
 
 APP_TIMEZONE = ZoneInfo("America/Chicago")
 
@@ -26,7 +27,8 @@ AVAILABLE_TOOLS = {
     "create_appointment": create_appointment,
     "reschedule_appointment": reschedule_appointment,
     "find_Provider": find_Provider,
-    "find_Service": find_Service
+    "find_Service": find_Service,
+    "get_appointment_status":get_appointment_status
 }
 
 
@@ -37,7 +39,8 @@ TOOLS = [
     create_appointment,
     reschedule_appointment,
     find_Provider,
-    find_Service
+    find_Service,
+    get_appointment_status
 ]
 
 

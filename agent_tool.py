@@ -9,7 +9,7 @@ from find_service import find_Service
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from appoinment_status import get_appointment_status
-
+from speech_to_text import get_voice_input
 APP_TIMEZONE = ZoneInfo("America/Chicago")
 
 now = datetime.now(APP_TIMEZONE)
@@ -18,7 +18,7 @@ current_date = now.strftime("%Y-%m-%d")
 current_time = now.strftime("%H:%M:%S")
 
 MODEL = "qwen3:8b"
-
+VOICE_ENABLED = True
 
 AVAILABLE_TOOLS = {
     "cancel_appointment": cancel_appointment,
@@ -46,7 +46,6 @@ TOOLS = [
 
 
 def run_agent(customer_id, messages):
-
     system_message = {
         "role": "system",
         "content": f"""
@@ -216,21 +215,29 @@ if __name__ == "__main__":
 
     print("Appointment booking assistant")
     print("Type 'exit' to quit.")
+    
 
-    while True:
+while True:
 
+    if VOICE_ENABLED:
+        user_input = get_voice_input()
+    else:
         user_input = input("\nUser: ")
 
-        if user_input.lower() == "exit":
-            break
+    if not user_input:
+        continue
 
+    if user_input.lower() == "exit":
+        break
 
-        messages = [
+    messages = [
         {
             "role": "user",
             "content": user_input
         }
-       ]    
-        answer = run_agent(1, messages)
+    ]
 
-        print("\nAgent:", answer)  
+    answer = run_agent(1, messages)
+
+    print("\nAgent:", answer)
+
